@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form CV</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        if(sessionStorage.getItem("loggedIn") !== "true") {
+          window.location.href = "login.html";
+        }
+      </script>
+
+    <div class="wrapper-form">
+        <form id="cvForm" method="post">
+            <h1>Input Data CV</h1>
+
+            <div class="inputbox">
+                <label>Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Nama Lengkap" required>
+            </div>
+            <div class="inputbox">
+                <label>Tempat Lahir</label>
+                <input type="text" id="tempat-lahir" placeholder="Kota" required>
+            </div>
+            <div class="inputbox">
+                <label>Tanggal Lahir</label>
+                <input type="date" id="tanggal-lahir" required>
+            </div>
+            <div id="pendidikan-container">
+                <div class="inputbox">
+                    <label>Riwayat Pendidikan</label>
+                    <div class="input-group">
+                        <input type="text" class="riwayat-pendidikan" placeholder="Riwayat Pendidikan" required>
+                        <button type="button" id="tambahPendidikan" class="addbtn">+</button>
+                    </div>
+                </div>
+            </div>
+            <div id="pekerjaan-container">
+                <div class="inputbox">
+                    <label>Riwayat Pekerjaan</label>
+                    <div class="input-group">
+                        <input type="text" class="riwayat-pekerjaan" placeholder="Riwayat Pekerjaan" required>
+                        <button type="button" id="tambahPekerjaan" class="addbtn">+</button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="submitbtn">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("tambahPendidikan").addEventListener("click", function() {
+            var container = document.getElementById("pendidikan-container");
+            var newInput = document.createElement("div");
+            newInput.classList.add("inputbox");
+            newInput.innerHTML = `
+                <div class="input-group">
+                    <input type="text" class="riwayat-pendidikan" placeholder="Riwayat Pendidikan" required>
+                </div>
+            `;
+            container.appendChild(newInput);
+        });
+
+        document.getElementById("tambahPekerjaan").addEventListener("click", function() {
+            var container = document.getElementById("pekerjaan-container");
+            var newInput = document.createElement("div");
+            newInput.classList.add("inputbox");
+            newInput.innerHTML = `
+                <div class="input-group">
+                    <input type="text" class="riwayat-pekerjaan" placeholder="Riwayat Pekerjaan" required>
+                </div>
+            `;
+            container.appendChild(newInput);
+        });
+
+        document.getElementById("cvForm").addEventListener("submit", function(e) {
+          e.preventDefault();
+          var nama = document.getElementById("nama").value;
+          var tempatLahir = document.getElementById("tempat-lahir").value;
+          var tanggalLahir = document.getElementById("tanggal-lahir").value;
+          var pendidikanElements = document.getElementsByClassName("riwayat-pendidikan");
+          var pendidikan = [];
+          for (var i = 0; i < pendidikanElements.length; i++) {
+              pendidikan.push(pendidikanElements[i].value);
+          }
+          var pekerjaanElements = document.getElementsByClassName("riwayat-pekerjaan");
+          var pekerjaan = [];
+          for (var i = 0; i < pekerjaanElements.length; i++) {
+              pekerjaan.push(pekerjaanElements[i].value);
+          }
+          
+          var cvData = {
+            nama: nama,
+            tempatLahir: tempatLahir,
+            tanggalLahir: tanggalLahir,
+            pendidikan: pendidikan.join("<br/>"),
+            pekerjaan: pekerjaan.join("<br/>")
+          };
+          sessionStorage.setItem("cvData", JSON.stringify(cvData));
+          
+          window.location.href = "Cv.html";
+        });
+    </script>  
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CV</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <script>
+        if (sessionStorage.getItem("loggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <div class="wrapper">
+        <h1>Curriculum Vitae</h1>
+        <br>
+        <div id="cvContent"></div>
+    </div>
+
+    <script>
+        const cvData = JSON.parse(sessionStorage.getItem("cvData"));
+        const email = sessionStorage.getItem("email");
+
+        if (cvData) {
+            document.getElementById("cvContent").innerHTML = `
+                <p><strong>Nama                 :</strong> ${cvData.nama || 'N/A'}</p>
+                <p><strong>Tempat Lahir         :</strong> ${cvData.tempatLahir || 'N/A'}</p>
+                <p><strong>Tanggal Lahir        :</strong> ${cvData.tanggalLahir || 'N/A'}</p>
+                <p><strong>Riwayat Pendidikan   :</strong><br/> ${cvData.pendidikan || 'N/A'}</p>
+                <p><strong>Riwayat Pekerjaan    :</strong><br/> ${cvData.pekerjaan || 'N/A'}</p>
+                <p><strong>Email                :</strong> ${email || 'N/A'}</p>
+            `;
+        } else {
+            document.getElementById("cvContent").innerHTML = `<p>Data CV tidak ditemukan. Silakan input data di halaman sebelumnya.</p>`;
+        }
+    </script>
+</body>
+
+</html>
