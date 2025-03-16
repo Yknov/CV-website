@@ -32,6 +32,10 @@
                 <label>Tanggal Lahir</label>
                 <input type="date" id="tanggal-lahir" required>
             </div>
+            <div class="inputbox">
+                <label>Foto CV</label>
+                <input type="file" id="foto" accept="image/*">
+            </div>
             <div id="pendidikan-container">
                 <div class="inputbox">
                     <label>Riwayat Pendidikan</label>
@@ -93,7 +97,7 @@
           for (var i = 0; i < pekerjaanElements.length; i++) {
               pekerjaan.push(pekerjaanElements[i].value);
           }
-          
+          var fotoInput = document.getElementById("foto");
           var cvData = {
             nama: nama,
             tempatLahir: tempatLahir,
@@ -101,9 +105,20 @@
             pendidikan: pendidikan.join("<br/>"),
             pekerjaan: pekerjaan.join("<br/>")
           };
-          sessionStorage.setItem("cvData", JSON.stringify(cvData));
-          
-          window.location.href = "Cv.html";
+
+          if (fotoInput.files.length > 0) {
+            var reader = new FileReader();
+            reader.onload = function(evt) {
+                cvData.foto = evt.target.result;
+                sessionStorage.setItem("cvData", JSON.stringify(cvData));
+                window.location.href = "Cv.html";
+            };
+            reader.readAsDataURL(fotoInput.files[0]);
+          } else {
+            cvData.foto = "";
+            sessionStorage.setItem("cvData", JSON.stringify(cvData));
+            window.location.href = "Cv.html";
+          }
         });
     </script>  
 </body>

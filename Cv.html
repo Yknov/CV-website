@@ -30,6 +30,7 @@
 
         if (cvData) {
             document.getElementById("cvContent").innerHTML = `
+            ${cvData.foto ? `<p><br/><img src="${cvData.foto}" alt="Foto CV" style="max-width:200px;" /></p>` : ''}
                 <p><strong>Nama                 :</strong> ${cvData.nama || 'N/A'}</p>
                 <p><strong>Tempat Lahir         :</strong> ${cvData.tempatLahir || 'N/A'}</p>
                 <p><strong>Tanggal Lahir        :</strong> ${cvData.tanggalLahir || 'N/A'}</p>
@@ -42,5 +43,4 @@
         }
     </script>
 </body>
-
 </html>
